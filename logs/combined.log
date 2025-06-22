@@ -66,3 +66,20 @@
 {"level":"info","message":"Server is running on port 3000","timestamp":"2025-06-22T16:27:50.450Z"}
 {"level":"info","message":"Server is running on port 3000","timestamp":"2025-06-22T16:27:52.419Z"}
 {"level":"info","message":"MongoDB connected successfully","timestamp":"2025-06-22T16:27:54.248Z"}
+{"level":"info","message":"Server is running on port 3000","timestamp":"2025-06-22T17:06:36.225Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-06-22T17:06:37.804Z"}
+{"level":"info","message":"POST /api/auth/signup 201 444 - 384.945 ms","timestamp":"2025-06-22T17:06:42.739Z"}
+{"level":"error","message":"Error:","timestamp":"2025-06-22T17:43:39.430Z"}
+{"level":"info","message":"POST /api/auth/signin 500 51 - 154.708 ms","timestamp":"2025-06-22T17:43:39.433Z"}
+{"level":"info","message":"POST /api/auth/signin 200 442 - 222.066 ms","timestamp":"2025-06-22T17:45:12.876Z"}
+{"level":"info","message":"GET /api/auth/signup?email=Sahar%40gmail.com 404 154 - 2.789 ms","timestamp":"2025-06-22T17:45:29.289Z"}
+{"level":"info","message":"GET /api/auth/signup?email=Sahar%40gmail.com 404 154 - 0.770 ms","timestamp":"2025-06-22T17:45:32.340Z"}
+{"level":"info","message":"GET /api/auth/signup?email=Sahar%40gmail.com 404 154 - 0.963 ms","timestamp":"2025-06-22T17:46:28.356Z"}
+{"level":"error","message":"Error:","timestamp":"2025-06-22T17:47:01.689Z"}
+{"level":"info","message":"POST /api/auth/signin 500 51 - 125.614 ms","timestamp":"2025-06-22T17:47:01.692Z"}
+{"level":"error","message":"Error:","timestamp":"2025-06-22T17:47:22.033Z"}
+{"level":"info","message":"POST /api/auth/signin 500 51 - 129.030 ms","timestamp":"2025-06-22T17:47:22.035Z"}
+{"level":"error","message":"Error:","timestamp":"2025-06-22T17:47:23.194Z"}
+{"level":"info","message":"POST /api/auth/signin 500 51 - 130.092 ms","timestamp":"2025-06-22T17:47:23.196Z"}
+{"level":"info","message":"Server is running on port 3000","timestamp":"2025-06-22T18:07:29.591Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-06-22T18:07:31.420Z"}
