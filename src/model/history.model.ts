@@ -1,34 +1,27 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose from 'mongoose';
 
-export interface History extends Document {
-  user: mongoose.Types.ObjectId;
-  weather: mongoose.Types.ObjectId;
-  lat: number;
-  lon: number;
-  requestedAt: Date;
-}
-
-const historySchema = new Schema<History>({
-    user: { 
-        type: Schema.Types.ObjectId,
-         ref: 'User', 
-         index: true, 
-         required: true },
-    weather: {
-         type: Schema.Types.ObjectId, 
-         ref: 'Weather', 
-         required: true },
-    lat: { 
-        type: Number, 
-        required: true },
-    lon: { 
-        type: Number, 
-        required: true },
+const historySchema = new mongoose.Schema({
+  user: { 
+    type: mongoose.Schema.Types.ObjectId,
+     ref: 'User', 
+     index: true 
     },
-        {  
-            timestamps: true 
-        }
-  
-  );
-  
-  export default mongoose.model<History>('History', historySchema);
+  weather: { 
+    type: mongoose.Schema.Types.ObjectId,
+     ref: 'Weather' 
+    },
+  lat: Number,
+  lon: Number,
+  requestedAt: {
+     type: Date, 
+     default: Date.now,
+      index: true
+     },
+});
+
+historySchema.index({
+   user: 1,
+    requestedAt: -1 
+  });
+
+export const HistoryCollection = mongoose.model('History', historySchema);

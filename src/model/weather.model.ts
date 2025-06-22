@@ -1,30 +1,30 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose from 'mongoose';
 
-export interface Weather extends Document {
-  lat: number;
-  lon: number;
-  data: any;
-  fetchedAt: Date;
-}
-
-const weatherSchema = new Schema<Weather>({
+const weatherSchema = new mongoose.Schema({
   lat: { 
-    type: Number, 
-    required: true
- },
-  lon: {
-     type: Number,
-      required: true 
+    type: Number,
+     required: true 
     },
-    data: Schema.Types.Mixed,
-    fetchedAt: {
-         type: Date, 
-         default: Date.now, 
-         index: { 
-            expires: '30m'
-         } }
+  lon: {
+     type: Number, 
+     required: true 
+    },
+  data: { 
+    type: mongoose.Schema.Types.Mixed, 
+    required: true },
+  fetchedAt: { 
+    type: Date, 
+    default: Date.now, 
+    expires: process.env.WEATHER_CACHE_MINUTES || 1800 
+  }
+});
+
+weatherSchema.index({
+   lat: 1,
+    lon: 1 
+  },
+   { 
+    unique: true 
   });
- 
 
-
-export default mongoose.model<Weather>('Weather', weatherSchema);
+export const WeatherCollection = mongoose.model('Weather', weatherSchema);

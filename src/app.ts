@@ -5,12 +5,14 @@ import morgan from 'morgan';
 import dotenv from 'dotenv';
 import logger from './utils/logger';
 import { dev, port } from './utils/helpers';
+import authRoutes from './routes/auth.route';
 import { OK, INTERNAL_SERVER_ERROR } from './utils/http-status';
-import { connectDB } from './config/db';
-import { getUserHistory } from './controllers/history.controller'
-import { authenticate } from './middleware/auth'; 
-import { getWeather } from './controllers/weather.controller';
-import authRoutes from '../src/routes/auth.route'
+import { connectDB, deleteAllCollections } from './config/db';
+import { AppError } from './utils/error';
+import historyRoutes from './routes/history.route';
+import weatherRoutes from './routes/weather.route';
+
+
 // Load environment variables
 dotenv.config();
 connectDB()
@@ -28,9 +30,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use('/auth', authRoutes);
-app.get('/weather', authenticate, getWeather);
-app.get('/history', authenticate, getUserHistory);
+app.use('/api/auth', authRoutes);
+app.use('/api/history', historyRoutes);
+app.use('/api/weather', weatherRoutes);
+
 
 
 // Basic route

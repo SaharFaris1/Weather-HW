@@ -1,34 +1,14 @@
-import { AuthRequest } from '../AuthRequest';
-import { Response } from 'express';
-import historyModel from '../model/history.model';
+import { Request, Response } from 'express';
+import { HistoryCollection } from '../model/history.model';
 
-export const getUserHistory = async (req: AuthRequest, res: Response): Promise<void> => {
+export const getHistory = async (req: Request, res: Response) => {
   try {
+    const userId = (req as any).user._id;
 
- //  ياخذ ID المستخدم من التوكن
-    const userId = req.user?.userId;
+    const history = await HistoryCollection.find({ user: userId }).populate('weather');
 
-    if (!userId) {
-      res.status(401).json({ success: false, error: 'Unauthorized' });
-      return;
-    }
-
-    const history = await historyModel
-      .find({ user: userId })
-      //ربط بيانات الطقس بكل سجل
-      .populate('weather') 
-      //ترتيب من الأحدث إلى الأقدم
-      .sort({ requestedAt: -1 }); 
-
-    res.json({
-      success: true,
-      data: history
-    });
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      error: 'Failed to fetch history',
-      details: err.message
-    });
+    res.json({ success: true, data: history });
+  } catch (error) {
+    res.status(500).json({ success: false, error: 'Something went wrong.' });
   }
 };

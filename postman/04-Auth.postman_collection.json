@@ -1,0 +1,568 @@
+{
+	"info": {
+		"_postman_id": "d52ad7d3-6983-4430-9e60-e6ab744c7370",
+		"name": "WeatherHub API",
+		"description": "Postman collection for testing the WeatherHub API reference implementation.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31452918"
+	},
+	"item": [
+		{
+			"name": "Health",
+			"item": [
+				{
+					"name": "DB",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/health/db",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"health",
+								"db"
+							]
+						},
+						"description": "Check the health status of the database connection"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Sign Up",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user@example.com\",\n    \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/auth/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"auth",
+								"signup"
+							]
+						},
+						"description": "Create a new user account and receive access & refresh tokens"
+					},
+					"response": []
+				},
+				{
+					"name": "Sign In",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"user@example.com\",\n    \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/auth/signin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"auth",
+								"signin"
+							]
+						},
+						"description": "Login to an existing user account and receive access & refresh tokens"
+					},
+					"response": []
+				},
+				{
+					"name": "Sign Out",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/auth/signout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"auth",
+								"signout"
+							]
+						},
+						"description": "Logout and clear auth cookies (requires auth)"
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refreshToken\": \"{{refreshToken}}\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/auth/refresh-token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"auth",
+								"refresh-token"
+							]
+						},
+						"description": "Get new access & refresh tokens using refresh token"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Account",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/auth/delete-account",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"auth",
+								"delete-account"
+							]
+						},
+						"description": "Delete the current user account (requires auth)"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Lists",
+			"item": [
+				{
+					"name": "Create List",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"My Todo List\",\n    \"description\": \"A list of tasks to complete\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/lists",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"lists"
+							]
+						},
+						"description": "Create a new todo list (requires auth) - Returns 201 CREATED"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Lists",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/lists",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"lists"
+							]
+						},
+						"description": "Get all todo lists for the authenticated user (requires auth) - Returns 200 OK"
+					},
+					"response": []
+				},
+				{
+					"name": "Get List by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/lists/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"lists",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "list_{{$guid}}"
+								}
+							]
+						},
+						"description": "Get a specific todo list by ID (requires auth) - Returns 200 OK or 403 FORBIDDEN if not owner"
+					},
+					"response": []
+				},
+				{
+					"name": "Update List",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Updated List Title\",\n    \"description\": \"Updated description\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/lists/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"lists",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "list_{{$guid}}"
+								}
+							]
+						},
+						"description": "Update a todo list (requires auth) - Returns 200 OK or 403 FORBIDDEN if not owner"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete List",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/lists/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"lists",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "list_{{$guid}}"
+								}
+							]
+						},
+						"description": "Delete a todo list and all its items (requires auth) - Returns 200 OK or 403 FORBIDDEN if not owner"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Items",
+			"item": [
+				{
+					"name": "Create Item",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"New Todo Item\",\n    \"description\": \"Item description\",\n    \"completed\": false\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/lists/:listId/items",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"lists",
+								":listId",
+								"items"
+							],
+							"variable": [
+								{
+									"key": "listId",
+									"value": "list_{{$guid}}"
+								}
+							]
+						},
+						"description": "Create a new item in a todo list (requires auth) - Returns 201 CREATED or 403 FORBIDDEN if not list owner"
+					},
+					"response": []
+				},
+				{
+					"name": "Get List Items",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/lists/:listId/items",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"lists",
+								":listId",
+								"items"
+							],
+							"variable": [
+								{
+									"key": "listId",
+									"value": "list_{{$guid}}"
+								}
+							]
+						},
+						"description": "Get all items in a todo list (requires auth) - Returns 200 OK or 403 FORBIDDEN if not list owner"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Item",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/lists/:listId/items/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"lists",
+								":listId",
+								"items",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "listId",
+									"value": "list_{{$guid}}"
+								},
+								{
+									"key": "id",
+									"value": "item_{{$guid}}"
+								}
+							]
+						},
+						"description": "Get a specific item from a todo list (requires auth) - Returns 200 OK or 403 FORBIDDEN if not list owner"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Item",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Updated Item Title\",\n    \"description\": \"Updated item description\",\n    \"completed\": true\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/lists/:listId/items/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"lists",
+								":listId",
+								"items",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "listId",
+									"value": "list_{{$guid}}"
+								},
+								{
+									"key": "id",
+									"value": "item_{{$guid}}"
+								}
+							]
+						},
+						"description": "Update an item in a todo list (requires auth) - Returns 200 OK or 403 FORBIDDEN if not list owner"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Item",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/lists/:listId/items/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"lists",
+								":listId",
+								"items",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "listId",
+									"value": "list_{{$guid}}"
+								},
+								{
+									"key": "id",
+									"value": "item_{{$guid}}"
+								}
+							]
+						},
+						"description": "Delete an item from a todo list (requires auth) - Returns 200 OK or 403 FORBIDDEN if not list owner"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

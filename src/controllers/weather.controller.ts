@@ -1,48 +1,66 @@
-import { AuthRequest } from '../AuthRequest';
-import { Response } from 'express';
-import historyModel from '../model/history.model';
-import weatherModel from '../model/weather.model';
-import GetAPIWeather from '../utils/apiWeather';
+import { Request, Response } from 'express';
+import axios from 'axios';
+import { WeatherCollection } from '../model/weather.model';
+import { HistoryCollection } from '../model/history.model';
 
-export const getWeather = async (req: AuthRequest, res: Response): Promise<void> => {
-    try {
-        const userId = (req as any).user.userId;
+const API_KEY = process.env.WEATHER_API_KEY || '130e55ebc8f4e1ce213618eded89677a';
 
-         //  استخراج الإحداثيات من الطلب
-    const { lat, lon } = req.query;
-    const latNum = parseFloat(lat as string);
-    const lonNum = parseFloat(lon as string);
-   //  التحقق مما إذا كانت الإحداثيات صحيحة
-    if (isNaN(latNum) || isNaN(lonNum)) {
-      res.status(400).json({ success: false, error: 'Invalid coordinates' });
+const fetchWeather = async (lat: number, lon: number) => {
+  const url = 'https://api.openweathermap.org/data/2.5/weather';
+  const response = await axios.get(url, {
+    params: {
+      lat,
+      lon,
+      appid: API_KEY,
+      units: 'metric',
+    },
+  });
+  return response.data;
+};
+
+export const getWeather = async (req: Request, res: Response): Promise<void> => {
+  try {
+    if (!API_KEY) {
+      res.status(500).json({ success: false, error: 'API key is missing' });
       return;
     }
-        //  تقريب الإحداثيات لتقليل الطلبات المتكررة لنفس الموقع
 
-    const roundedLat = parseFloat(latNum.toFixed(2));
-    const roundedLon = parseFloat(lonNum.toFixed(2));
- //  البحث عن بيانات الطقس في قاعدة البيانات
-    let weather = await weatherModel.findOne({ lat: roundedLat, lon: roundedLon });
+    const user = (req as any).user;
+    const { lat, lon } = req.query;
 
-      //  إن لم تكن موجودة، اجمعها من API ا
-    if (!weather) {
-      const data = await GetAPIWeather(latNum, lonNum);
-      if (!data) {
-        res.status(500).json({ success: false, error: 'Failed to fetch weather data' });
-        return;
-      }
-      weather = await weatherModel.create({ lat: roundedLat, lon: roundedLon, data });
+    if (!lat || !lon) {
+      res.status(400).json({ success: false, error: 'enter lat and lon' });
+      return;
     }
 
-    await historyModel.create({
-      user: userId,
+    const latitude = parseFloat(lat as string);
+    const longitude = parseFloat(lon as string);
+
+    const roundedLat = +latitude.toFixed(2);
+    const roundedLon = +longitude.toFixed(2);
+
+    let weather = await WeatherCollection.findOne({ lat: roundedLat, lon: roundedLon });
+
+    if (!weather) {
+      const data = await fetchWeather(latitude, longitude);
+      weather = await WeatherCollection.create({
+        lat: roundedLat,
+        lon: roundedLon,
+        data,
+        fetchedAt: new Date(),
+      });
+    }
+
+    await HistoryCollection.create({
+      user: user.id, 
       weather: weather._id,
-      lat: latNum,
-      lon: lonNum,
+      lat: latitude,
+      lon: longitude,
     });
 
     res.json({ success: true, data: weather.data });
   } catch (err: any) {
-    res.status(500).json({ success: false, error: 'Server Error', details: err.message });
+    console.error('Weather Error:', err);
+    res.status(500).json({ success: false, error: 'error' });
   }
 };
