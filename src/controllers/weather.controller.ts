@@ -4,7 +4,6 @@ import { WeatherCollection } from '../model/weather.model';
 import { HistoryCollection } from '../model/history.model';
 
 const API_KEY = process.env.WEATHER_API_KEY || '130e55ebc8f4e1ce213618eded89677a';
-
 const fetchWeather = async (lat: number, lon: number) => {
   const url = 'https://api.openweathermap.org/data/2.5/weather';
   const response = await axios.get(url, {
@@ -56,11 +55,11 @@ export const getWeather = async (req: Request, res: Response): Promise<void> => 
       weather: weather._id,
       lat: latitude,
       lon: longitude,
-    });
+    })
 
     res.json({ success: true, data: weather.data });
   } catch (err: any) {
     console.error('Weather Error:', err);
     res.status(500).json({ success: false, error: 'error' });
   }
-};
+}

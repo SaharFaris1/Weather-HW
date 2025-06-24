@@ -119,18 +119,19 @@ const signUp = async (req: Request, res: Response, next: NextFunction) => {
       password,
     });
 
-    // Set cookies
+   
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
       secure: !dev,
-      maxAge: 15 * 60 * 1000, // 15 minutes
+      sameSite: 'none',
+      maxAge: 15 * 60 * 1000, 
     });
 
     
     res.status(CREATED).json({
       status: 'success',
       data: {
-        // Remove password from output
+      
         user: {
           id: user.id,
           email: user.email,
@@ -155,18 +156,19 @@ const signIn = async (req: Request, res: Response, next: NextFunction) => {
       password
     );
 
-    // Set cookies
+   
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
       secure: !dev,
-      maxAge: 15 * 60 * 1000, // 15 minutes
+      sameSite: 'none',
+      maxAge: 15 * 60 * 1000, 
     });
 
 
     res.status(OK).json({
       status: 'success',
       data: {
-        // Remove password from output
+      
         user: {
           id: user.id,
           email: user.email,
@@ -186,6 +188,8 @@ const signOut = async (req: Request, res: Response) => {
   res.cookie('accessToken', 'none', {
     expires: new Date(Date.now() + 5 * 1000),
     httpOnly: true,
+    secure: !dev,
+    sameSite: 'none',
   });
 
 
@@ -203,6 +207,8 @@ const deleteAccount = async (req: AuthRequest, res: Response, next: NextFunction
     res.cookie('accessToken', 'none', {
       expires: new Date(Date.now() + 5 * 1000),
       httpOnly: true,
+      secure: !dev,
+      sameSite: 'none',
     });
 
     res.status(OK).json({
